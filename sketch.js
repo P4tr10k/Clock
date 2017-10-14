@@ -5,7 +5,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(255);
   frameRate(1);
-  digits[0] = new Digit(SIDE*-2, 1);
+  digits[0] = new Digit(SIDE*-2.5,1);
   digits[1] = new Digit(SIDE*3, 3);
   digits[2] = new Digit(SIDE*7, 2);
   digits[3] = new Digit(SIDE*12.5);

@@ -65,7 +65,7 @@ function Digit(placement, rows = 3) {
   this.show = function() {
     push();
   //this.color = color(random(255),random(255),random(255));
-    this.color = color(31,232,33);
+    this.color = color(0,255,0);
     this.reccolor = color(0);
     stroke(150);
     strokeWeight(0.75);

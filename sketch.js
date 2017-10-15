@@ -5,10 +5,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(255);
   frameRate(1);
-  digits[0] = new Digit(SIDE*-2.5,1);
-  digits[1] = new Digit(SIDE*3, 3);
-  digits[2] = new Digit(SIDE*7, 2);
-  digits[3] = new Digit(SIDE*12.5);
+  digits[0] = new Digit(SIDE*-1.75,1);
+  digits[1] = new Digit(SIDE*3.25, 3);
+  digits[2] = new Digit(SIDE*6.75, 2);
+  digits[3] = new Digit(SIDE*11.75);
 }
 
 function draw() {

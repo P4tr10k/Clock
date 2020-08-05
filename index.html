@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+
+        }
+
+        .main {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* hr.vertical {
+            border: none;
+            border-left: 1px solid #ccc;
+            width: 1px;
+        } */
+
+        .container {
+            width: max-content;
+            height: max-content;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+
+        .container .grid {
+            display: grid;
+            grid-template-rows: repeat(3, minmax(10px,3rem));
+            margin: 1rem;
+            column-gap: 10px;
+            row-gap: 10px;
+        }
+
+        .container .grid.col-1 {
+            grid-template-columns: repeat(1, minmax(10px,3rem));
+        }
+
+        .container .grid.col-2 {
+            grid-template-columns: repeat(2, minmax(10px,3rem));
+        }
+
+        .container .grid.col-3 {
+            grid-template-columns: repeat(3, minmax(10px,3rem));
+        }
+
+
+
+
+
+        .square,
+        .dot {
+            border: 1px solid #555555;
+        }
+
+        .dot.on,
+        .square.on {
+            background-color: #00ff00;
+        }
+
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            position: absolute;
+            border-radius: 50%;
+            display: none;
+        }
+
+        #dot1,
+        #dot2 {
+            top: 1rem;
+        }
+
+        #dot3,
+        #dot4 {
+            bottom: 1rem;
+        }
+
+        #dot1,
+        #dot3 {
+            left: 1rem;
+        }
+
+        #dot2,
+        #dot4 {
+            right: 1rem;
+        }
+
+        .square {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <title>Clock</title>
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="center">
+            <div class="container">
+                <div id="hour1" class="col-1 grid">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <!-- <hr class="vertical"> -->
+                <div id="hour2" class="col-3 grid">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <!-- <hr class="vertical"> -->
+                <div id="minute1" class="col-2 grid">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <!-- <hr class="vertical"> -->
+                <div id="minute2" class="col-3 grid">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dot" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+        <div class="dot" id="dot3"></div>
+        <div class="dot" id="dot4"></div>
+    </div>
+    <script>
+        var div_hour1 = document.getElementById("hour1")
+        var div_hour2 = document.getElementById("hour2")
+        var div_minute1 = document.getElementById("minute1")
+        var div_minute2 = document.getElementById("minute2")
+
+        var hour1 = div_hour1.getElementsByClassName("square")
+        var hour2 = div_hour2.getElementsByClassName("square")
+        var minute1 = div_minute1.getElementsByClassName("square")
+        var minute2 = div_minute2.getElementsByClassName("square")
+
+
+        function sample(max, n) { // modified from https://stackoverflow.com/a/19270021
+            if (n > max)
+                throw new RangeError("sample: more elements taken than available");
+
+            var arr = Array.from(Array(max).keys()) //=> [0, 1, 2, 3, 4, ..., max-1]
+
+            var result = new Array(n),
+                len = max,
+                taken = new Array(len);
+            while (n--) {
+                var x = Math.floor(Math.random() * len);
+                result[n] = arr[x in taken ? taken[x] : x];
+                taken[x] = --len in taken ? taken[len] : len;
+            }
+            return result;
+        }
+
+        function setLights(all, n) {
+            var l = all.length
+            var selected = sample(l, n)
+
+            for (var i = 0; i < l; i++) {
+                if (selected.includes(i)) {
+                    if (!all[i].classList.contains("on")) {
+                        all[i].classList.add("on");
+                    }
+                } else {
+                    if (all[i].classList.contains("on")) {
+                        all[i].classList.remove("on");
+                    }
+                }
+            }
+        }
+
+
+
+
+        function update() {
+
+            let now = new Date()
+            let hours = now.getHours()
+            let minutes = now.getMinutes()
+            let seconds = now.getSeconds()
+
+
+            setLights(hour1, Math.floor(hours / 10))
+            setLights(hour2, hours % 10)
+            setLights(minute1, Math.floor(minutes / 10))
+            setLights(minute2, minutes % 10)
+
+        }
+
+        update()
+        setInterval(update, 1000)
+
+    </script>
+</body>
+
+</html>
